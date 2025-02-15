@@ -8090,27 +8090,24 @@ function toggleMenu() {
       </audio>
     
       <script>
-        function playAudio() {
-          const audio = document.getElementById("audioPlayer");
-          console.log("Tentando reproduzir áudio...");
-          
-          audio.play().then(() => {
-            console.log("Áudio reproduzido com sucesso!");
-          }).catch(error => {
-            console.error("Erro ao reproduzir o áudio:", error);
-          });
-    
-          // Remove os event listeners para evitar múltiplas execuções
-          document.removeEventListener("pointerdown", playAudio);
-          document.removeEventListener("click", playAudio);
-          document.removeEventListener("touchstart", playAudio);
-        }
-    
-        // Adiciona os eventos de interação do usuário
-        document.addEventListener("pointerdown", playAudio, { once: true });
-        document.addEventListener("click", playAudio, { once: true });
-        document.addEventListener("touchstart", playAudio, { once: true });
-      </script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audio = document.getElementById("audioPlayer");
+        
+            function playAudio() {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log("Erro ao reproduzir o áudio:", error));
+                }
+                window.removeEventListener("scroll", playAudio);
+                document.removeEventListener("mousemove", playAudio);
+                document.removeEventListener("touchstart", playAudio);
+            }
+        
+            window.addEventListener("scroll", playAudio, { once: true });
+            document.addEventListener("mousemove", playAudio, { once: true });
+            document.addEventListener("touchstart", playAudio, { once: true });
+        });
+        </script>
+        
     
     
          
