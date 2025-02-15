@@ -8087,26 +8087,31 @@ function toggleMenu() {
      <audio id="audioPlayer" preload="auto">
         <source src="pasta/audio-ml.mp3" type="audio/mp3">
         Seu navegador não suporta áudio HTML5.
-    </audio>
+      </audio>
     
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const audio = document.getElementById("audioPlayer");
+      <script>
+        function playAudio() {
+          const audio = document.getElementById("audioPlayer");
+          console.log("Tentando reproduzir áudio...");
+          
+          audio.play().then(() => {
+            console.log("Áudio reproduzido com sucesso!");
+          }).catch(error => {
+            console.error("Erro ao reproduzir o áudio:", error);
+          });
     
-            function playAudio() {
-                if (audio.paused) {
-                    audio.play().catch(error => console.log("Erro ao reproduzir o áudio:", error));
-                }
-                document.removeEventListener("click", playAudio);
-                document.removeEventListener("touchstart", playAudio);
-                document.removeEventListener("mousemove", playAudio);
-            }
+          // Remove os event listeners para evitar múltiplas execuções
+          document.removeEventListener("pointerdown", playAudio);
+          document.removeEventListener("click", playAudio);
+          document.removeEventListener("touchstart", playAudio);
+        }
     
-            document.addEventListener("click", playAudio);
-            document.addEventListener("touchstart", playAudio);
-            document.addEventListener("mousemove", playAudio);
-        });
-    </script>
+        // Adiciona os eventos de interação do usuário
+        document.addEventListener("pointerdown", playAudio, { once: true });
+        document.addEventListener("click", playAudio, { once: true });
+        document.addEventListener("touchstart", playAudio, { once: true });
+      </script>
+    
     
          
      
